@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.top-news-bycategory-text-box{
+    background: rgb(0,0,0);
+    background: linear-gradient(0deg, rgba(0,0,0,0.6) 100%, rgba(0,0,0,0.6) 100%);
+}
+
+.top-news-bycategory-text-box-2{
+    background: rgb(0,0,0);
+background: linear-gradient(180deg, rgba(0,0,0,0.0032387955182072714) 37%, rgba(0,0,0,0.8743872549019608) 60%);
+}

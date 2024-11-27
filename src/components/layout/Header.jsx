@@ -1,29 +1,26 @@
+import React from "react";
 import Link from "next/link";
-import { newsApi } from "@/redux/newsApi";
-import { store } from "@/redux/store";
 import { IoMdSearch } from "react-icons/io";
 import { FaBars } from "react-icons/fa6";
-
-import React from "react";
+import { fetchNews } from "@/api/news";
 
 const styles = {
   main_color: "#fff200",
 };
 
 const Header = async () => {
-  const { data, isLoading } = await store.dispatch(
-    newsApi.endpoints.getAllNews.initiate()
-  );
+  const data = await fetchNews("/News2?select=*", false);
+
   const allCategories = Array.from(new Set([...data.map((d) => d.category)]));
 
   return (
     <header className="border-b mb-5 md:bg-white bg-[#fff200]">
       <div className=" h-16 container m-auto flex items-center justify-between">
         <div className="md:w-1/5 w-1/3 h-full flex justify-center items-center">
-          <Link href={'/'}>
-          <h1 className=" w-32 m-auto text-center md:h-auto h-full flex justify-center items-center md:pt-4 md:pb-8 pb-2.5 md:text-5xl text-4xl bg-[#fff200]">
-            Vox
-          </h1>
+          <Link href={"/"}>
+            <h1 className=" w-32 m-auto text-center md:h-auto h-full flex justify-center items-center md:pt-12 md:pb-8 pb-2.5 md:text-5xl text-4xl bg-[#fff200]">
+              Vox
+            </h1>
           </Link>
         </div>
 
@@ -33,7 +30,7 @@ const Header = async () => {
               <Link
                 key={index}
                 href={`/${category.toLowerCase()}`}
-                className="text-sm"
+                className="text-sm hover:text-black transition duration-500"
               >
                 {category}
               </Link>

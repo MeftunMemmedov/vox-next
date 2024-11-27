@@ -11,3 +11,12 @@
     background: rgb(0,0,0);
 background: linear-gradient(180deg, rgba(0,0,0,0.0032387955182072714) 37%, rgba(0,0,0,0.8743872549019608) 60%);
 }
+
+
+.news-description img{
+    max-width: 100%!important;
+    height: auto;
+}
+.news-description h2{
+    line-break: normal;
+}

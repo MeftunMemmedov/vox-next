@@ -2,10 +2,13 @@ import Image from "next/image";
 import React from "react";
 import SingleSideTopStory from "./components/SingleSideTopStory";
 import Link from "next/link";
+import { apiUrl, fetchNews, getOptions } from "@/api/news";
 
-const TopStoriesSection = ({ news }) => {
-  const slicedNewsForLeft = news.slice(2, 5);
-  const slicedNewsForRight = news.slice(5, 8);
+const TopStoriesSection = async () => {
+  const news = await fetchNews("/News2?select=*", 60);
+  const slicedNewsForLeft = news.slice(3, 6);
+  const slicedNewsForRight = news.slice(6, 9);
+
   return (
     <section>
       <div className="container m-auto">
@@ -41,10 +44,10 @@ const TopStoriesSection = ({ news }) => {
             </div>
             <div className="lg:w-[66.40%] md:w-3/4 w-full flex flex-col md:order-none order-first">
               <>
-                <div className="h-80 relative">
+                <div className="h-96 relative">
                   <Image src={news[0].main_img} fill className="object-cover" />
                 </div>
-                <div className="h-72 text-center flex flex-col justify-between pb-5">
+                <div className="h-54 text-center flex flex-col pb-5">
                   <Link
                     href={`/${
                       news[0].category.slice(0, 1).toLowerCase() +
@@ -56,7 +59,7 @@ const TopStoriesSection = ({ news }) => {
                   >
                     {news[0].title}
                   </Link>
-                  <h6 className="text-xl text-gray-600 italic">
+                  <h6 className="text-xl text-gray-600 italic ">
                     By {news[0].written_by}
                   </h6>
                 </div>
@@ -64,14 +67,19 @@ const TopStoriesSection = ({ news }) => {
 
               <hr className="w-11/12 m-auto" />
 
-              <div className="flex h-32 my-3">
-                <div className="w-3/5 h-full flex flex-col justify-between">
-                  <Link href={`/${
+              <div className="flex h-40 my-3">
+                <div className="w-3/5 h-full flex flex-col justify-between text-xl">
+                  <Link
+                    href={`/${
                       news[1].category.slice(0, 1).toLowerCase() +
                       news[1].category.slice(1)
                     }/${news[1].id}/${news[1].title
                       .toLowerCase()
-                      .replace(/\s+/g, "-")}`} className="font-semibold">{news[1].title}</Link>
+                      .replace(/\s+/g, "-")}`}
+                    className="font-semibold"
+                  >
+                    {news[1].title}
+                  </Link>
                   <h6 className="text-sm text-gray-600 italic">
                     By {news[1].written_by}
                   </h6>
@@ -80,6 +88,27 @@ const TopStoriesSection = ({ news }) => {
                   <Image src={news[1].main_img} fill className="object-cover" />
                 </div>
               </div>
+              {/* <div className="lg:flex hidden h-40 my-3">
+                <div className="w-3/5 h-full flex flex-col justify-between text-2xl">
+                  <Link
+                    href={`/${
+                      news[2].category.slice(0, 1).toLowerCase() +
+                      news[2].category.slice(1)
+                    }/${news[2].id}/${news[2].title
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")}`}
+                    className="font-semibold"
+                  >
+                    {news[2].title}
+                  </Link>
+                  <h6 className="text-sm text-gray-600 italic">
+                    By {news[2].written_by}
+                  </h6>
+                </div>
+                <div className="w-2/5 border relative">
+                  <Image src={news[2].main_img} fill className="object-cover" />
+                </div>
+              </div> */}
             </div>
           </div>
           <div className="lg:w-1/4 w-full flex lg:flex-col md:flex-row md:gap-x-2 flex-col  gap-y-2">

@@ -1,6 +1,5 @@
+import { fetchNews } from "@/api/news";
 import SingleNews from "@/components/news/SingleNews";
-import { newsApi } from "@/redux/newsApi";
-import { store } from "@/redux/store";
 import CategoryDescription from "@/sections/newsByCategory/components/CategoryDescription";
 import TopNewsByCategory from "@/sections/newsByCategory/TopNewsByCategory";
 import React from "react";
@@ -9,15 +8,11 @@ const page = async ({ params }) => {
   const categoryName = `${params.category[0].toUpperCase()}${params.category.slice(
     1
   )}`;
-  const {
-    data: newsByCategory,
-    isLoading,
-    isError,
-  } = await store.dispatch(
-    newsApi.endpoints.getNewsByCategory.initiate(categoryName)
-  );
 
-  if (isLoading) return <div>Loading....</div>;
+  const newsByCategory = await fetchNews(
+    `/News2?or=(category.eq.${categoryName},tags.cs.{${categoryName}})&select=*`,
+    60
+  );
 
   return (
     <main>
@@ -26,10 +21,9 @@ const page = async ({ params }) => {
         <CategoryDescription categoryName={categoryName} />
       </div>
       <hr className="border-2 border-yellow-400 w-11/12 m-auto my-5" />
-
-      <TopNewsByCategory news={newsByCategory} category={categoryName} />
+      <TopNewsByCategory news={newsByCategory} />
       <section>
-        <div className="container m-auto my-12">
+        <div className="container m-auto md:w-3/4 w-full my-12">
           {newsByCategory.slice(3).map((singleNews, index) => (
             <SingleNews singleNews={singleNews} key={index} />
           ))}

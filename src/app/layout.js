@@ -2,6 +2,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Providers from "./Providers";
+import SearchBar from "@/components/layout/SearchBar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
       >
         <Providers>
           <Header />
+          <SearchBar />
           {children}
         </Providers>
       </body>

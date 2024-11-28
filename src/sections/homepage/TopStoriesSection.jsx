@@ -11,10 +11,10 @@ const TopStoriesSection = async () => {
 
   return (
     <section>
-      <div className="container m-auto">
+      <div className="container m-auto mt-5">
         <div
           className="
-              relative mb-3
+              relative mb-2
               md:after:content-[''] md:after:bg-yellow-400 after:h-32 after:w-1 after:absolute after:right-0 after:top-4
               md:before:content-[''] md:before:bg-yellow-400 before:h-32 before:w-1 before:absolute before:left-0 before:top-4
             "

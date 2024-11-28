@@ -22,6 +22,17 @@ export const fetchNews = async (params, revalidateTime) => {
   return response;
 };
 
+export const fetchSingleContent = async (params, revalidateTime) => {
+  const response = await fetch(apiUrl + params, {
+    headers: {
+      apikey: apiKey,
+      Authorization: `Bearer ${apiKey}`,
+    },
+    next: { revalidate: revalidateTime},
+  }).then((res) => res.json());
+  return response[0];
+};
+
 export const updateViewCount = async (newsId, viewCount) => {
   const data = {
     views: viewCount + 1,

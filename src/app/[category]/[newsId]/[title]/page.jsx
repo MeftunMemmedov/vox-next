@@ -2,15 +2,35 @@ import Image from "next/image";
 import React from "react";
 import parse from "html-react-parser";
 import Link from "next/link";
-import { apiUrl, fetchNews, postOptions } from "@/api/news";
+import { apiUrl, fetchNews, fetchSingleContent, postOptions } from "@/api/news";
 import NewsDate from "@/components/news/NewsDate";
 import { FaEye } from "react-icons/fa";
 import ViewUp from "@/components/news/ViewUp";
 
-const page = async ({ params }) => {
-  const data = await fetchNews(`/News2?id=eq.${params.newsId}&select=*`, 10);
+export const generateStaticParams = async () => {
+  const news = await fetchNews("/News2?select=*", false);
 
-  const currentNews = data[0];
+  return news.map((singleNews) => ({
+    newsId: singleNews.id,
+  }));
+};
+
+export const generateMetadata = async ({ params }) => {
+  const currentNews = await fetchSingleContent(
+    `/News2?id=eq.${params.newsId}&select=*`,
+    false
+  );
+  return {
+    title: `Vox | ${currentNews.title}`,
+  };
+};
+
+const page = async ({ params }) => {
+  const { newsId } = params;
+  const currentNews = await fetchSingleContent(
+    `/News2?id=eq.${newsId}&select=*`,
+    10
+  );
 
   // const updatedView = {
   //   views: currentNews.views + 1,
@@ -23,11 +43,10 @@ const page = async ({ params }) => {
   //     postOptions
   //   );
   // }
- 
 
   return (
     <main className="py-12">
-      <ViewUp data={data} currentNews={currentNews} params={params}/>
+      <ViewUp currentNews={currentNews} params={params} />
       <div className="container m-auto">
         <div className="lg:w-3/5">
           <section className="w-full">

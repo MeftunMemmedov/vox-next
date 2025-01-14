@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Loading from "../loading";
 
-const page = () => {
+const SearchPage = () => {
   const searchParams = useSearchParams();
   const q = searchParams.get("s");
 
@@ -47,4 +47,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default SearchPage;

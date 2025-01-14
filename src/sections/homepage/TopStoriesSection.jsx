@@ -2,12 +2,12 @@ import Image from "next/image";
 import React from "react";
 import SingleSideTopStory from "./components/SingleSideTopStory";
 import Link from "next/link";
-import { apiUrl, fetchNews, getOptions } from "@/api/news";
+import { fetchData } from "@/api/news";
 
 const TopStoriesSection = async () => {
-  const news = await fetchNews("/News2?select=*", 60);
-  const slicedNewsForLeft = news.slice(3, 6);
-  const slicedNewsForRight = news.slice(6, 9);
+  const news = await fetchData("/News2?select=*", 60);
+  const slicedNewsForLeft = news.slice(4, 7);
+  const slicedNewsForRight = news.slice(7, 10);
 
   return (
     <section>
@@ -43,9 +43,9 @@ const TopStoriesSection = async () => {
               ))}
             </div>
             <div className="lg:w-[66.40%] md:w-3/4 w-full flex flex-col md:order-none order-first">
-              <>
+
                 <div className="h-96 relative">
-                  <Image src={news[0].main_img} fill className="object-cover" />
+                  <Image src={news[0].main_img} fill className="object-cover" alt={news[0].title}/>
                 </div>
                 <div className="h-54 text-center flex flex-col pb-5">
                   <Link
@@ -55,7 +55,7 @@ const TopStoriesSection = async () => {
                     }/${news[0].id}/${news[0].title
                       .toLowerCase()
                       .replace(/\s+/g, "-")}`}
-                    className="md:text-4xl text-3xl font-bold px-3 mb-4"
+                    className="md:text-4xl text-3xl font-bold px-3 mb-4 my-5"
                   >
                     {news[0].title}
                   </Link>
@@ -63,11 +63,7 @@ const TopStoriesSection = async () => {
                     By {news[0].written_by}
                   </h6>
                 </div>
-              </>
-
-              <hr className="w-11/12 m-auto" />
-
-              <div className="flex h-40 my-3">
+              <div className="flex h-40 my-5">
                 <div className="w-3/5 h-full flex flex-col justify-between text-xl">
                   <Link
                     href={`/${
@@ -85,10 +81,10 @@ const TopStoriesSection = async () => {
                   </h6>
                 </div>
                 <div className="w-2/5 border relative">
-                  <Image src={news[1].main_img} fill className="object-cover" />
+                  <Image src={news[1].main_img} fill className="object-cover" alt={news[1].title}/>
                 </div>
               </div>
-              {/* <div className="lg:flex hidden h-40 my-3">
+              <div className="xl:flex hidden h-40 my-5">
                 <div className="w-3/5 h-full flex flex-col justify-between text-2xl">
                   <Link
                     href={`/${
@@ -106,12 +102,12 @@ const TopStoriesSection = async () => {
                   </h6>
                 </div>
                 <div className="w-2/5 border relative">
-                  <Image src={news[2].main_img} fill className="object-cover" />
+                  <Image src={news[2].main_img} fill className="object-cover" alt={news[2].title}/>
                 </div>
-              </div> */}
+              </div>
             </div>
           </div>
-          <div className="lg:w-1/4 w-full flex lg:flex-col md:flex-row md:gap-x-2 flex-col  gap-y-2">
+          <div className="lg:w-1/4 w-full flex lg:flex-col md:flex-row md:gap-x-2 flex-col gap-y-2">
             {slicedNewsForRight.map((singleNews, index) => (
               <SingleSideTopStory
                 news={singleNews}

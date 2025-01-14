@@ -7,7 +7,7 @@ const SingleSideTopStory = ({news, index, slicedNewsConst}) => {
     <>
       <div className="" >
         <div className="xl:h-56 md:h-32 lg:w-full md:w-[245px] w-full h-72 relative">
-          <Image src={news.main_img} fill className="object-cover" />
+          <Image src={news.main_img} fill className="object-cover" alt={news.title}/>
         </div>
         <div className="h-24 flex flex-col justify-between">
           <Link href={`${news.category.slice(0,1).toLowerCase()+news.category.slice(1)}/${news.id}/${news.title.toLowerCase().replace(/\s+/g, '-')}`} className="font-semibold">{news.title}</Link>

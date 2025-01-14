@@ -6,7 +6,7 @@ const SingleNews = ({ singleNews }) => {
   return (
     <div className="border-t flex xl:h-52 lg:h-40 md:h-32 sm:h-28 h-24 my-5">
       <div className=" relative ">
-        <Image src={singleNews.main_img} width={1920} height={1080} className="object-cover w-full h-full" />
+        <Image src={singleNews.main_img} width={1920} height={1080} className="object-cover w-full h-full" alt={singleNews.title}/>
       </div>
       <div className="w-3/5 pl-2">
         <Link

@@ -1,3 +1,4 @@
+
 import axios from "axios";
 
 export const apiUrl = process.env.NEXT_PUBLIC_NEWS_API_URL;
@@ -11,7 +12,7 @@ export const postOptions={
   }
 }
 
-export const fetchNews = async (params, revalidateTime) => {
+export const fetchData = async (params, revalidateTime) => {
   const response = await fetch(apiUrl + params, {
     headers: {
       apikey: apiKey,
@@ -33,15 +34,29 @@ export const fetchSingleContent = async (params, revalidateTime) => {
   return response[0];
 };
 
-export const updateViewCount = async (newsId, viewCount) => {
-  const data = {
-    views: viewCount + 1,
-  };
-  await axios.patch(apiUrl+`/News2?id=eq.${newsId}`, data, {
+
+
+export const fetchFilteredData = async (params, revalidateTime) => {
+  const response = await fetch(apiUrl + params, {
     headers: {
       apikey: apiKey,
       Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
     },
-  });
+    next: { revalidate: revalidateTime},
+  }).then((res) => res.json());
+  return response;
 };
+
+
+// export const updateViewCount = async (newsId, viewCount) => {
+//   const data = {
+//     views: viewCount + 1,
+//   };
+//   await axios.patch(apiUrl+`/News2?id=eq.${newsId}`, data, {
+//     headers: {
+//       apikey: apiKey,
+//       Authorization: `Bearer ${apiKey}`,
+//       "Content-Type": "application/json",
+//     },
+//   });
+// };

@@ -1,34 +1,35 @@
-import { fetchNews } from "@/api/news";
+import { fetchData } from "@/api/news";
 import SingleNews from "@/components/news/SingleNews";
 import CategoryDescription from "@/sections/newsByCategory/components/CategoryDescription";
 import TopNewsByCategory from "@/sections/newsByCategory/TopNewsByCategory";
 import React from "react";
 
 export const generateStaticParams = async () => {
-  const news = await fetchNews(`/News2?select=*`, false);
-  
+  const news = await fetchData(`/News2?select=*`, false);
   return news.map((news) => ({
     category: news.category,
   }));
 };
 
-export const generateMetadata = async({params})=>{
-  const categoryName = `${params.category[0].toUpperCase()}${params.category.slice(1)}`;
+export const generateMetadata = async ({ params }) => {
+  const categoryName = `${params.category[0].toUpperCase()}${params.category.slice(
+    1
+  )}`;
   return {
-    title:`Vox | ${categoryName} News`
-  }
-
-}
+    title: `Vox | ${categoryName} News`,
+  };
+};
 
 const page = async ({ params }) => {
   const { category } = params;
-  const categoryName = `${category[0].toUpperCase()}${category.slice(1)}`;
+  const categoryName = decodeURI(`${category[0].toUpperCase()}${category.slice(1)}`);
 
-  const newsByCategory = await fetchNews(
+  const newsByCategory = await fetchData(
     `/News2?or=(category.eq.${categoryName},tags.cs.{${categoryName}})&select=*`,
     60
   );
 
+  console.log(newsByCategory);
   return (
     <main>
       <div className="text-center pt-4 lg:px-80">
@@ -37,13 +38,19 @@ const page = async ({ params }) => {
       </div>
       <hr className="border-2 border-yellow-400 w-11/12 m-auto my-5" />
       <TopNewsByCategory news={newsByCategory} />
-      <section>
-        <div className="container m-auto md:w-3/4 w-full my-12">
-          {newsByCategory.slice(3).map((singleNews, index) => (
-            <SingleNews singleNews={singleNews} key={index} />
-          ))}
+      {newsByCategory.length == 0 ? (
+        <div className="text-center">
+          <h2>NO NEWS YET</h2>
         </div>
-      </section>
+      ) : (
+        <section>
+          <div className="container m-auto md:w-3/4 w-full my-12">
+            {newsByCategory.slice(3).map((singleNews, index) => (
+              <SingleNews singleNews={singleNews} key={index} />
+            ))}
+          </div>
+        </section>
+      )}
     </main>
   );
 };

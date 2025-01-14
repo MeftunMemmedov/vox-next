@@ -1,10 +1,10 @@
-import { fetchNews } from '@/api/news'
+import { fetchData } from '@/api/news'
 import SingleNews from '@/components/news/SingleNews'
 import React from 'react'
 
 const LatestNews = async() => {
-    const news=await fetchNews('/News2?select=*', 60)
-    const latestNews=news.slice(8)
+    const news=await fetchData('/News2?select=*', 60)
+    const latestNews=news.slice(11)
   return (
     <div className='container m-auto my-32 '>
         <h2 className='

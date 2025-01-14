@@ -2,13 +2,14 @@ import Image from "next/image";
 import React from "react";
 import parse from "html-react-parser";
 import Link from "next/link";
-import { apiUrl, fetchNews, fetchSingleContent, postOptions } from "@/api/news";
+import { fetchFilteredData, fetchData, fetchSingleContent } from "@/api/news";
 import NewsDate from "@/components/news/NewsDate";
 import { FaEye } from "react-icons/fa";
 import ViewUp from "@/components/news/ViewUp";
+import CommentForm from "@/components/news/CommentForm";
 
 export const generateStaticParams = async () => {
-  const news = await fetchNews("/News2?select=*", false);
+  const news = await fetchData("/News2?select=*", false);
 
   return news.map((singleNews) => ({
     newsId: singleNews.id,
@@ -30,6 +31,11 @@ const page = async ({ params }) => {
   const currentNews = await fetchSingleContent(
     `/News2?id=eq.${newsId}&select=*`,
     10
+  );
+
+  const comments = await fetchFilteredData(
+    `/News-Comments?newsId=eq.${currentNews.id}&select=*`,
+    0
   );
 
   // const updatedView = {
@@ -76,6 +82,7 @@ const page = async ({ params }) => {
                 src={currentNews.main_img}
                 fill
                 className="object-cover "
+                alt={currentNews.title}
               />
             </div>
           </section>
@@ -83,6 +90,29 @@ const page = async ({ params }) => {
           <section>
             <div className="p-3 news-description">
               {parse(String(currentNews.description))}
+            </div>
+          </section>
+          <section>
+            <div>
+              <h2 className=" font-semibold font-xl">
+                Comments ({comments.length})
+              </h2>
+              <div className="py-5">
+                {comments.map((comment, index) => (
+                  <div key={index} className="flex flex-col mb-3">
+                    <div className="flex items-center justify-between">
+                      <span>By {comment.written_by}</span>
+                      <span className="block text-end text-xs text-gray-500">
+                        {comment.date}
+                      </span>
+                    </div>
+                    <div className="bg-gray-300 p-4 md:ml-10 ml-5 mt-2">
+                      <p>{comment.comment}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <CommentForm currentNews={currentNews} />
             </div>
           </section>
         </div>

@@ -1,5 +1,5 @@
 "use client";
-import { apiUrl, fetchNews } from "@/api/news";
+import { apiUrl, fetchData } from "@/api/news";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { IoMdSearch } from "react-icons/io";
@@ -18,7 +18,7 @@ const SearchBar = () => {
   );
 
   useEffect(() => {
-    fetchNews("/News2?select=*").then((data) => setNews(data));
+    fetchData("/News2?select=*",false).then((data) => setNews(data));
   }, []);
 
   return (
@@ -62,8 +62,8 @@ const SearchBar = () => {
               className="p-2 border block"
               >Search for {searchInput}</Link>
             </div>
-            {filteredNewsList.map((singleNews) => (
-              <div className="h-20 border-b flex items-center  mb-2">
+            {filteredNewsList.map((singleNews,index) => (
+              <div className="h-20 border-b flex items-center  mb-2" key={index}>
                 <div className="w-1/6">
                   <img src={singleNews.main_img} alt="" className="w-full" />
                 </div>

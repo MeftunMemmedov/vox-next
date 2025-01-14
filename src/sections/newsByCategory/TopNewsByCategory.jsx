@@ -5,6 +5,7 @@ import React from "react";
 const TopNewsByCategory = ({ news }) => {
   const topFirstNews = news[0];
 
+  if(!topFirstNews) return null;
   return (
     <section>
       <div className="flex md:flex-row flex-col">
@@ -40,6 +41,7 @@ const TopNewsByCategory = ({ news }) => {
                 src={singleNews.main_img}
                 fill
                 className="z-[-1] object-cover"
+                alt={singleNews.title}
               />
               <div className="w-full px-3 h-4/5 top-news-bycategory-text-box-2 flex flex-col justify-end text-white">
                 <Link

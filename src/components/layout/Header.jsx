@@ -1,14 +1,14 @@
 import React from "react";
 import Link from "next/link";
 import { FaBars } from "react-icons/fa6";
-import { fetchNews } from "@/api/news";
+import { fetchData } from "@/api/news";
 
 const styles = {
   main_color: "#fff200",
 };
 
 const Header = async () => {
-  const data = await fetchNews("/News2?select=*", false);
+  const data = await fetchData("/News2?select=*", false);
 
   const allCategories = Array.from(new Set([...data.map((d) => d.category)]));
 

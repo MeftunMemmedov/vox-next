@@ -1,6 +1,5 @@
 "use client";
-import { apiUrl, postOptions } from "@/api/news";
-import axios from "axios";
+import { updateView } from "@/api/server";
 import { useEffect, useState } from "react";
 
 const ViewUp = ({ currentNews, params }) => {
@@ -8,17 +7,14 @@ const ViewUp = ({ currentNews, params }) => {
   const viewedNewsSession = sessionStorage.getItem("viewedNews")
     ? JSON.parse(sessionStorage.getItem("viewedNews"))
     : [];
+
   const updateViewCount = async () => {
     const updatedView = {
       views: currentNews.views + 1,
     };
 
     if (currentNews) {
-      await axios.patch(
-        apiUrl + `/News2?id=eq.${params.newsId}`,
-        updatedView,
-        postOptions
-      );
+      updateView(params.newsId,updatedView)
     }
   };
   useEffect(() => {

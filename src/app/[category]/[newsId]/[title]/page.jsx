@@ -7,6 +7,18 @@ import NewsDate from "@/components/news/NewsDate";
 import { FaEye } from "react-icons/fa";
 import ViewUp from "@/components/news/ViewUp";
 import CommentForm from "@/components/news/CommentForm";
+import NotFound from "@/app/not-found";
+
+export const generateMetadata = async ({ params }) => {
+  const currentNews = await fetchSingleContent(
+    `/News2?id=eq.${params.newsId}&select=*`,
+    false
+  );
+  if (!currentNews) return { title: `Error` };
+  return {
+    title: `Vox | ${currentNews.title}`,
+  };
+};
 
 export const generateStaticParams = async () => {
   const news = await fetchData("/News2?select=*", false);
@@ -14,16 +26,6 @@ export const generateStaticParams = async () => {
   return news.map((singleNews) => ({
     newsId: singleNews.id,
   }));
-};
-
-export const generateMetadata = async ({ params }) => {
-  const currentNews = await fetchSingleContent(
-    `/News2?id=eq.${params.newsId}&select=*`,
-    false
-  );
-  return {
-    title: `Vox | ${currentNews.title}`,
-  };
 };
 
 const page = async ({ params }) => {
@@ -34,7 +36,7 @@ const page = async ({ params }) => {
   );
 
   const comments = await fetchFilteredData(
-    `/News-Comments?newsId=eq.${currentNews.id}&select=*`,
+    `/News-Comments?newsId=eq.${currentNews?.id}&select=*`,
     0
   );
 
@@ -49,6 +51,10 @@ const page = async ({ params }) => {
   //     postOptions
   //   );
   // }
+
+  if (!currentNews) {
+    return <NotFound />;
+  }
 
   return (
     <main className="py-12">

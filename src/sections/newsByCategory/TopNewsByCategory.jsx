@@ -6,6 +6,7 @@ const TopNewsByCategory = ({ news }) => {
   const topFirstNews = news[0];
 
   if(!topFirstNews) return null;
+  
   return (
     <section>
       <div className="flex md:flex-row flex-col">

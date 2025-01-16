@@ -40,8 +40,11 @@ const page = async ({ params }) => {
     `/News2?or=(category.eq.${categoryNAME},tags.cs.{${categoryNAME}})&select=*`,
     60
   );
-  if (!newsByCategory.length === 0) return <NotFound />;
 
+  if (!newsByCategory || newsByCategory.length === 0) {
+    return <NotFound />;
+  }
+  
   return (
     <main>
       <div className="text-center pt-4 lg:px-80">

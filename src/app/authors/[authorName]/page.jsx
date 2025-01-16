@@ -1,11 +1,11 @@
 import { fetchData, fetchFilteredData, fetchSingleContent } from "@/api/news";
+import NotFound from "@/app/not-found";
 import SingleNews from "@/components/news/SingleNews";
 import Image from "next/image";
 import React from "react";
 
 export const generateMetadata = ({ params }) => {
-  const authorName = decodeURIComponent(params.authorName);
-
+  const authorName = decodeURIComponent(params.authorName);  
   return {
     title: `Vox | Authors | ${authorName}`,
   };
@@ -24,6 +24,9 @@ const page = async ({ params }) => {
   const currentAuthor = await fetchSingleContent(`/News-Authors?name=eq.${authorname}`);
   const newsByAuthor = await fetchFilteredData(`/News2?written_by=eq.${authorname}`);
 
+  if(!currentAuthor || !newsByAuthor){
+    return <NotFound />
+  }
   return (
     <main className="container m-auto">
       <section>
